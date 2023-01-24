@@ -7,7 +7,7 @@ import (
 
 func main() {
 	printers := cups.NewConnection()
-	n, err := printers.EnumDests()
+	n, err := printers.EnumDestinations()
 	if err != nil {
 		fmt.Printf("%v", err.Error())
 		return
