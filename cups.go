@@ -25,6 +25,7 @@ type Connection struct {
 	Dests     []Dest
 }
 
+// NewConnection creates a connection object
 func NewConnection() *Connection {
 	connection := &Connection{
 		isDefault: true,
@@ -32,7 +33,7 @@ func NewConnection() *Connection {
 	return connection
 }
 
-// GetOptions возвращает список возможных предопределенных опций
+// GetOptions returns a list of possible predefined options
 func (c *Connection) GetOptions() []string {
 	return []string{
 		"auth-info-required",
@@ -49,7 +50,7 @@ func (c *Connection) GetOptions() []string {
 	}
 }
 
-// EnumDestinations заполняет список назначений
+// EnumDestinations updates destinations list
 func (c *Connection) EnumDestinations() (int, error) {
 	var dests *C.cups_dest_t
 	var t, m C.cups_ptype_t
@@ -77,14 +78,4 @@ func (c *Connection) EnumDestinations() (int, error) {
 		c.Dests = append(c.Dests, d)
 	}
 	return int(n), nil
-}
-
-// https://github.com/OpenPrinting/cups/blob/63890581f643759bd93fa4416ab53e7380c6bd2d/cups/cups.h#L465
-func (d *Dest) StartDocument() {
-
-}
-
-// https://github.com/OpenPrinting/cups/blob/63890581f643759bd93fa4416ab53e7380c6bd2d/cups/cups.h#L556
-func (d *Dest) StartDestDocument() {
-
 }
