@@ -13,9 +13,9 @@ import (
 )
 
 const (
-	PRINTER_STATE_IDLE     = "3"
-	PRINTER_STATE_PRINTING = "4"
-	PRINTER_STATE_STOPPED  = "5"
+	PrinterStateIdle     = "3"
+	PrinterStatePrinting = "4"
+	PrinterStateStopped  = "5"
 )
 
 type Connection struct {
@@ -32,7 +32,7 @@ func NewConnection() *Connection {
 	return connection
 }
 
-// GetOptions возвращает список предопределенных опций
+// GetOptions возвращает список возможных предопределенных опций
 func (c *Connection) GetOptions() []string {
 	return []string{
 		"auth-info-required",
@@ -67,22 +67,16 @@ func (c *Connection) EnumDestinations() (int, error) {
 			Instance:   C.GoString(dest.instance),
 			IsDefault:  int(dest.is_default) > 0,
 			NumOptions: int(dest.num_options),
-			Options:    make(map[string]string, 0),
+			options:    make(map[string]string, 0),
 		}
 
 		for _, option := range c.GetOptions() {
 			o := C.cupsGetOption(C.CString(option), dest.num_options, dest.options)
-			d.Options[option] = C.GoString(o)
+			d.options[option] = C.GoString(o)
 		}
 		c.Dests = append(c.Dests, d)
 	}
 	return int(n), nil
-}
-
-// https://github.com/OpenPrinting/cups/blob/63890581f643759bd93fa4416ab53e7380c6bd2d/cups/cups.h#L350
-func (d *Dest) PrintFile() int {
-
-	return 0
 }
 
 // https://github.com/OpenPrinting/cups/blob/63890581f643759bd93fa4416ab53e7380c6bd2d/cups/cups.h#L465

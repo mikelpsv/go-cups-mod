@@ -16,5 +16,15 @@ func main() {
 
 	for _, dest := range printers.Dests {
 		fmt.Printf("%v %s \n", dest.Name, dest.Status())
+		if dest.IsDefault {
+			jobId := 0
+			jobId, err = dest.PrintFile("filename.pdf", "test file name")
+			if err != nil {
+				fmt.Println(err)
+
+			}
+			fmt.Printf("job %d", jobId)
+		}
 	}
+	fmt.Printf("printed successfully")
 }
