@@ -1,23 +1,22 @@
 package go_cups_mod
 
 /*
+#cgo CFLAGS: -g -Wall
 #cgo LDFLAGS: -lcups
 #include "cups/cups.h"
 #include "cupsmod.h"
+#define DEBUG
 */
 import "C"
 import (
-	"fmt"
 	"unsafe"
 )
 
-type Dest struct {
-	Name       string
-	Instance   string
-	IsDefault  bool
-	NumOptions int
-	Options    map[string]string
-}
+const (
+	PRINTER_STATE_IDLE     = "3"
+	PRINTER_STATE_PRINTING = "4"
+	PRINTER_STATE_STOPPED  = "5"
+)
 
 type Connection struct {
 	isDefault bool
@@ -29,20 +28,40 @@ type Connection struct {
 func NewConnection() *Connection {
 	connection := &Connection{
 		isDefault: true,
-		Dests:     make([]Dest, 0),
 	}
 	return connection
 }
 
+// GetOptions возвращает список предопределенных опций
+func (c *Connection) GetOptions() []string {
+	return []string{
+		"auth-info-required",
+		"printer-info",
+		"printer-is-accepting-jobs",
+		"printer-is-shared",
+		"printer-location",
+		"printer-make-and-model",
+		"printer-state",
+		"printer-state-change-time",
+		"printer-state-reasons",
+		"printer-type",
+		"printer-uri-supported",
+	}
+}
+
+// EnumDestinations заполняет список назначений
 func (c *Connection) EnumDestinations() (int, error) {
 	var dests *C.cups_dest_t
 	var t, m C.cups_ptype_t
 	n := C.cups_enum_dests(t, m, &dests)
-
 	destPtr0 := uintptr(unsafe.Pointer(dests))
+
+	c.Dests = make([]Dest, 0)
+
 	for i := 0; i < int(n); i++ {
 		p := destPtr0 + unsafe.Sizeof(*dests)*uintptr(i)
 		dest := (*C.cups_dest_t)(unsafe.Pointer(p))
+
 		d := Dest{
 			Name:       C.GoString(dest.name),
 			Instance:   C.GoString(dest.instance),
@@ -50,8 +69,12 @@ func (c *Connection) EnumDestinations() (int, error) {
 			NumOptions: int(dest.num_options),
 			Options:    make(map[string]string, 0),
 		}
+
+		for _, option := range c.GetOptions() {
+			o := C.cupsGetOption(C.CString(option), dest.num_options, dest.options)
+			d.Options[option] = C.GoString(o)
+		}
 		c.Dests = append(c.Dests, d)
-		fmt.Printf("%v\n", C.GoString(dest.name))
 	}
 	return int(n), nil
 }

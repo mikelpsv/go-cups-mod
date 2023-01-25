@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "cups/cups.h"
 #include "cupsmod.h"
 

@@ -12,9 +12,9 @@ func main() {
 		fmt.Printf("%v", err.Error())
 		return
 	}
-	fmt.Printf("found %d", n)
+	fmt.Printf("found %d\n", n)
 
-	//for _, dest := range printers.Dests {
-	//	fmt.Printf("%v (%v)\n", dest.Name, dest.Status())
-	//}
+	for _, dest := range printers.Dests {
+		fmt.Printf("%v %s \n", dest.Name, dest.Status())
+	}
 }
