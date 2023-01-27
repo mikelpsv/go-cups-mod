@@ -15,15 +15,15 @@ func main() {
 	fmt.Printf("found %d\n", n)
 
 	for _, dest := range printers.Dests {
-		fmt.Printf("%v %s \n", dest.Name, dest.Status())
+		fmt.Printf("%v %s %v \n", dest.Name, dest.Status(), dest.CheckSupported(cups.CupsCopies, ""))
 		if dest.IsDefault {
-			jobId := 0
-			jobId, err = dest.PrintFile("filename.pdf", "test file name")
-			if err != nil {
-				fmt.Println(err)
-
-			}
-			fmt.Printf("job %d", jobId)
+			//jobId := 0
+			//jobId, err = dest.PrintFile("filename.pdf", "test file name")
+			//if err != nil {
+			//	fmt.Println(err)
+			//
+			//}
+			//fmt.Printf("job %d", jobId)
 		}
 	}
 	fmt.Printf("printed successfully")

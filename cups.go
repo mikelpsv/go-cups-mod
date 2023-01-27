@@ -18,6 +18,49 @@ const (
 	PrinterStateStopped  = "5"
 )
 
+const (
+	CupsCopies = C.CUPS_COPIES
+
+	CupsMedia        = C.CUPS_MEDIA
+	CupsMedia3x5     = C.CUPS_MEDIA_3X5
+	CupsMedia4x6     = C.CUPS_MEDIA_4X6
+	CupsMedia5x7     = C.CUPS_MEDIA_5X7
+	CupsMedia8x10    = C.CUPS_MEDIA_8X10
+	CupsMediaA3      = C.CUPS_MEDIA_A3
+	CupsMediaA4      = C.CUPS_MEDIA_A4
+	CupsMediaA5      = C.CUPS_MEDIA_A5
+	CupsMediaA6      = C.CUPS_MEDIA_A6
+	CupsMediaEnv10   = C.CUPS_MEDIA_ENV10
+	CupsMediaEnvDL   = C.CUPS_MEDIA_ENVDL
+	CupsMediaLegal   = C.CUPS_MEDIA_LEGAL
+	CupsMediaLetter  = C.CUPS_MEDIA_LETTER
+	CupsMediaPhotoL  = C.CUPS_MEDIA_PHOTO_L
+	CupsMediaTabloid = C.CUPS_MEDIA_TABLOID
+
+	CupsMediaSource       = C.CUPS_MEDIA_SOURCE
+	CupsMediaSourceAuto   = C.CUPS_MEDIA_SOURCE_AUTO
+	CupsMediaSourceManual = C.CUPS_MEDIA_SOURCE_MANUAL
+	CupsFinishings        = C.CUPS_FINISHINGS
+
+	CupsMediaType             = C.CUPS_MEDIA_TYPE
+	CupsMediaTypeAuto         = C.CUPS_MEDIA_TYPE_AUTO
+	CupsMediaTypeEnvelope     = C.CUPS_MEDIA_TYPE_ENVELOPE
+	CupsMediaTypeLabels       = C.CUPS_MEDIA_TYPE_LABELS
+	CupsMediaTypeLetterhead   = C.CUPS_MEDIA_TYPE_LETTERHEAD
+	CupsMediaTypePhoto        = C.CUPS_MEDIA_TYPE_PHOTO
+	CupsMediaTypePhotoGlossy  = C.CUPS_MEDIA_TYPE_PHOTO_GLOSSY
+	CupsMediaTypePhotoMatte   = C.CUPS_MEDIA_TYPE_PHOTO_MATTE
+	CupsMediaTypePlain        = C.CUPS_MEDIA_TYPE_PLAIN
+	CupsMediaTypeTransparency = C.CUPS_MEDIA_TYPE_TRANSPARENCY
+
+	CupsNumberUp = C.CUPS_NUMBER_UP
+)
+
+//CUPS_ORIENTATION: Controls the orientation of document pages placed on the media: CUPS_ORIENTATION_PORTRAIT or CUPS_ORIENTATION_LANDSCAPE.
+//CUPS_PRINT_COLOR_MODE: Controls whether the output is in color (CUPS_PRINT_COLOR_MODE_COLOR), grayscale (CUPS_PRINT_COLOR_MODE_MONOCHROME), or either (CUPS_PRINT_COLOR_MODE_AUTO).
+//CUPS_PRINT_QUALITY: Controls the generate quality of the output: CUPS_PRINT_QUALITY_DRAFT, CUPS_PRINT_QUALITY_NORMAL, or CUPS_PRINT_QUALITY_HIGH.
+//CUPS_SIDES: Controls whether prints are placed on one or both sides of the media: CUPS_SIDES_ONE_SIDED, CUPS_SIDES_TWO_SIDED_PORTRAIT, or CUPS_SIDES_TWO_SIDED_LANDSCAPE
+
 type Connection struct {
 	isDefault bool
 	address   string

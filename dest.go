@@ -7,6 +7,7 @@ package go_cups_mod
 import "C"
 import (
 	"fmt"
+	"unsafe"
 )
 
 type Dest struct {
@@ -49,6 +50,29 @@ func (d *Dest) PrintFile(fileName string, jobTitle string) (int, error) {
 		return 0, fmt.Errorf("failed to print with error code: %d %s", errId, string(errStr))
 	}
 	return int(jobId), nil
+}
+
+func (d *Dest) CheckSupported(option, value string) bool {
+	isSupport := C.int(0)
+
+	opt := C.CString(option)
+	val := C.CString(value)
+	destName := C.CString(d.Name)
+	destInst := C.CString(d.Instance)
+
+	defer C.free(unsafe.Pointer(opt))
+	defer C.free(unsafe.Pointer(val))
+	defer C.free(unsafe.Pointer(destName))
+	defer C.free(unsafe.Pointer(destInst))
+
+	dest := C.cupsGetNamedDest(C.CUPS_HTTP_DEFAULT, destName, destInst)
+	info := C.cupsCopyDestInfo(C.CUPS_HTTP_DEFAULT, dest)
+	if value == "" {
+		isSupport = C.cupsCheckDestSupported(C.CUPS_HTTP_DEFAULT, dest, info, opt, nil)
+	} else {
+		isSupport = C.cupsCheckDestSupported(C.CUPS_HTTP_DEFAULT, dest, info, opt, val)
+	}
+	return int(isSupport) == 1
 }
 
 // TODO: https://github.com/OpenPrinting/cups/blob/63890581f643759bd93fa4416ab53e7380c6bd2d/cups/cups.h#L465

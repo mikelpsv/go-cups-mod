@@ -2,6 +2,8 @@
 #include "cups/cups.h"
 #include "cupsmod.h"
 
+
+
 int cups_enum_dests_cb(user_data_t *user_data, unsigned flags, cups_dest_t *dest){
 
   if (flags & CUPS_DEST_FLAGS_REMOVED){
